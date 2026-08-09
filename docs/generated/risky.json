@@ -1,0 +1,874 @@
+{
+  "assumptions": [
+    "Runner-minute estimates use each workflow's job count times the configured duration; matrix expansion, retries, and billing multipliers are not inferred.",
+    "Collisions are simulated over the first 7 days with a 3-minute window.",
+    "Spring-forward runs follow GitHub's documented advance-to-next-valid-time behavior; fall-back behavior is reported as ambiguous rather than guessed."
+  ],
+  "findings": [
+    {
+      "evidence": {
+        "minimum_interval_minutes": 2
+      },
+      "line": 11,
+      "message": "The shortest simulated interval is 2 minute(s); GitHub Actions requires at least 5 minutes.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC002",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4"
+      ],
+      "severity": "error",
+      "title": "Schedule is more frequent than GitHub allows"
+    },
+    {
+      "evidence": {
+        "selected_minutes": [
+          0
+        ]
+      },
+      "line": 5,
+      "message": "GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary.",
+      "path": ".github/workflows/nightly.yml",
+      "rule_id": "CC003",
+      "schedule_ids": [
+        ".github/workflows/nightly.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Schedule hits the start of an hour"
+    },
+    {
+      "evidence": {
+        "examples": [
+          {
+            "actual_utc": "2026-03-08T07:00:00Z",
+            "adjusted_for_dst_gap": true,
+            "fold": 0,
+            "intended_local": "2026-03-08T02:00:00",
+            "local_time": "2026-03-08T03:00:00-04:00"
+          }
+        ]
+      },
+      "line": 5,
+      "message": "At least one intended wall-clock run does not exist and advances to the next valid local time.",
+      "path": ".github/workflows/nightly.yml",
+      "rule_id": "CC004",
+      "schedule_ids": [
+        ".github/workflows/nightly.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Schedule crosses a daylight-saving gap"
+    },
+    {
+      "evidence": {
+        "collision_count": 21,
+        "exact_count": 7,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T06:58:00Z",
+            "second_utc": "2026-01-01T07:00:00Z"
+          },
+          {
+            "delta_minutes": 0,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:00:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/nightly.yml:5:1",
+          ".github/workflows/sync.yml:11:4"
+        ]
+      },
+      "line": 5,
+      "message": "The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact.",
+      "path": ".github/workflows/nightly.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/nightly.yml:5:1",
+        ".github/workflows/sync.yml:11:4"
+      ],
+      "severity": "warning",
+      "title": "Scheduled workflows collide"
+    },
+    {
+      "evidence": {
+        "schedule_ids": [
+          ".github/workflows/nightly.yml:5:1",
+          ".github/workflows/sync.yml:5:1"
+        ]
+      },
+      "line": 5,
+      "message": "2 entries use '0 2 * * *' in America/New_York; consolidate them or document why simultaneous runs are required.",
+      "path": ".github/workflows/nightly.yml",
+      "rule_id": "CC007",
+      "schedule_ids": [
+        ".github/workflows/nightly.yml:5:1",
+        ".github/workflows/sync.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Duplicate schedules trigger together"
+    },
+    {
+      "evidence": {
+        "selected_minutes": [
+          0
+        ]
+      },
+      "line": 5,
+      "message": "GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC003",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Schedule hits the start of an hour"
+    },
+    {
+      "evidence": {
+        "examples": [
+          {
+            "actual_utc": "2026-03-08T07:00:00Z",
+            "adjusted_for_dst_gap": true,
+            "fold": 0,
+            "intended_local": "2026-03-08T02:00:00",
+            "local_time": "2026-03-08T03:00:00-04:00"
+          }
+        ]
+      },
+      "line": 5,
+      "message": "At least one intended wall-clock run does not exist and advances to the next valid local time.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC004",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Schedule crosses a daylight-saving gap"
+    },
+    {
+      "evidence": {
+        "examples": [
+          {
+            "actual_utc": "2026-03-08T07:00:00Z",
+            "adjusted_for_dst_gap": true,
+            "fold": 0,
+            "intended_local": "2026-03-08T02:02:00",
+            "local_time": "2026-03-08T03:00:00-04:00"
+          }
+        ]
+      },
+      "line": 7,
+      "message": "At least one intended wall-clock run does not exist and advances to the next valid local time.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC004",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:7:2"
+      ],
+      "severity": "warning",
+      "title": "Schedule crosses a daylight-saving gap"
+    },
+    {
+      "evidence": {
+        "examples": [
+          {
+            "actual_utc": "2026-11-01T06:30:00Z",
+            "adjusted_for_dst_gap": false,
+            "fold": 1,
+            "intended_local": null,
+            "local_time": "2026-11-01T01:30:00-05:00"
+          }
+        ]
+      },
+      "line": 9,
+      "message": "The selected local time occurs twice during fall-back. GitHub does not document a portable once-versus-twice guarantee; keep the job idempotent or move it outside the repeated hour.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC005",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:9:3"
+      ],
+      "severity": "warning",
+      "title": "Schedule enters a repeated daylight-saving hour"
+    },
+    {
+      "evidence": {
+        "selected_minutes": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46,
+          48,
+          50,
+          52,
+          54,
+          56,
+          58
+        ]
+      },
+      "line": 11,
+      "message": "GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC003",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4"
+      ],
+      "severity": "warning",
+      "title": "Schedule hits the start of an hour"
+    },
+    {
+      "evidence": {
+        "collision_count": 21,
+        "exact_count": 7,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T06:58:00Z",
+            "second_utc": "2026-01-01T07:00:00Z"
+          },
+          {
+            "delta_minutes": 0,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:00:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/sync.yml:11:4",
+          ".github/workflows/sync.yml:5:1"
+        ]
+      },
+      "line": 11,
+      "message": "The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4",
+        ".github/workflows/sync.yml:5:1"
+      ],
+      "severity": "warning",
+      "title": "Scheduled workflows collide"
+    },
+    {
+      "evidence": {
+        "collision_count": 21,
+        "exact_count": 7,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          },
+          {
+            "delta_minutes": 0,
+            "first_utc": "2026-01-01T07:02:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:02:00Z",
+            "second_utc": "2026-01-01T07:04:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/sync.yml:11:4",
+          ".github/workflows/sync.yml:7:2"
+        ]
+      },
+      "line": 11,
+      "message": "The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4",
+        ".github/workflows/sync.yml:7:2"
+      ],
+      "severity": "warning",
+      "title": "Scheduled workflows collide"
+    },
+    {
+      "evidence": {
+        "collision_count": 21,
+        "exact_count": 7,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T06:28:00Z",
+            "second_utc": "2026-01-01T06:30:00Z"
+          },
+          {
+            "delta_minutes": 0,
+            "first_utc": "2026-01-01T06:30:00Z",
+            "second_utc": "2026-01-01T06:30:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T06:30:00Z",
+            "second_utc": "2026-01-01T06:32:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/sync.yml:11:4",
+          ".github/workflows/sync.yml:9:3"
+        ]
+      },
+      "line": 11,
+      "message": "The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4",
+        ".github/workflows/sync.yml:9:3"
+      ],
+      "severity": "warning",
+      "title": "Scheduled workflows collide"
+    },
+    {
+      "evidence": {
+        "estimated_runner_minutes": 216000.0,
+        "job_count": 1,
+        "minutes_per_job": 10.0,
+        "runs_per_30_days": 21600.0
+      },
+      "line": 11,
+      "message": "Approximately 216000 raw runner-minutes per 30 days, above the configured 2000 threshold.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC008",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4"
+      ],
+      "severity": "warning",
+      "title": "Estimated monthly runner-minute budget is high"
+    },
+    {
+      "evidence": {
+        "collision_count": 7,
+        "exact_count": 0,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-02T07:00:00Z",
+            "second_utc": "2026-01-02T07:02:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-03T07:00:00Z",
+            "second_utc": "2026-01-03T07:02:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/nightly.yml:5:1",
+          ".github/workflows/sync.yml:7:2"
+        ]
+      },
+      "line": 5,
+      "message": "The pair lands within 3 minute(s) 7 time(s) in the collision horizon; 0 are exact.",
+      "path": ".github/workflows/nightly.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/nightly.yml:5:1",
+        ".github/workflows/sync.yml:7:2"
+      ],
+      "severity": "notice",
+      "title": "Scheduled workflows nearly collide"
+    },
+    {
+      "evidence": {
+        "collision_count": 7,
+        "exact_count": 0,
+        "examples": [
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-01T07:00:00Z",
+            "second_utc": "2026-01-01T07:02:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-02T07:00:00Z",
+            "second_utc": "2026-01-02T07:02:00Z"
+          },
+          {
+            "delta_minutes": 2,
+            "first_utc": "2026-01-03T07:00:00Z",
+            "second_utc": "2026-01-03T07:02:00Z"
+          }
+        ],
+        "schedule_ids": [
+          ".github/workflows/sync.yml:5:1",
+          ".github/workflows/sync.yml:7:2"
+        ]
+      },
+      "line": 5,
+      "message": "The pair lands within 3 minute(s) 7 time(s) in the collision horizon; 0 are exact.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC006",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:5:1",
+        ".github/workflows/sync.yml:7:2"
+      ],
+      "severity": "notice",
+      "title": "Scheduled workflows nearly collide"
+    },
+    {
+      "evidence": {},
+      "line": 11,
+      "message": "Add timezone: UTC to make intent explicit, or use an IANA local timezone.",
+      "path": ".github/workflows/sync.yml",
+      "rule_id": "CC009",
+      "schedule_ids": [
+        ".github/workflows/sync.yml:11:4"
+      ],
+      "severity": "notice",
+      "title": "Schedule relies on implicit UTC"
+    }
+  ],
+  "generated_at": "2026-01-01T00:00:00Z",
+  "horizon_days": 370,
+  "metrics": [
+    {
+      "estimated_runner_minutes_per_30_days": 300.0,
+      "minimum_interval_minutes": 1380,
+      "next_runs": [
+        {
+          "actual_utc": "2026-01-01T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-02T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-02T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-03T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-03T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-04T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-04T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-05T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-05T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-06T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-06T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-07T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-07T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-08T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-08T02:00:00-05:00"
+        }
+      ],
+      "runs_in_horizon": 370,
+      "runs_per_30_days": 30.0,
+      "schedule_id": ".github/workflows/nightly.yml:5:1"
+    },
+    {
+      "estimated_runner_minutes_per_30_days": 216000.0,
+      "minimum_interval_minutes": 2,
+      "next_runs": [
+        {
+          "actual_utc": "2026-01-01T00:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:02:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:04:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:04:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:06:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:06:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:08:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:08:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:10:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:10:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:12:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:12:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:14:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:14:00+00:00"
+        },
+        {
+          "actual_utc": "2026-01-01T00:16:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T00:16:00+00:00"
+        }
+      ],
+      "runs_in_horizon": 266400,
+      "runs_per_30_days": 21600.0,
+      "schedule_id": ".github/workflows/sync.yml:11:4"
+    },
+    {
+      "estimated_runner_minutes_per_30_days": 300.0,
+      "minimum_interval_minutes": 1380,
+      "next_runs": [
+        {
+          "actual_utc": "2026-01-01T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-02T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-02T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-03T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-03T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-04T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-04T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-05T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-05T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-06T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-06T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-07T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-07T02:00:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-08T07:00:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-08T02:00:00-05:00"
+        }
+      ],
+      "runs_in_horizon": 370,
+      "runs_per_30_days": 30.0,
+      "schedule_id": ".github/workflows/sync.yml:5:1"
+    },
+    {
+      "estimated_runner_minutes_per_30_days": 300.0,
+      "minimum_interval_minutes": 1382,
+      "next_runs": [
+        {
+          "actual_utc": "2026-01-01T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-02T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-02T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-03T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-03T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-04T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-04T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-05T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-05T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-06T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-06T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-07T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-07T02:02:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-08T07:02:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-08T02:02:00-05:00"
+        }
+      ],
+      "runs_in_horizon": 370,
+      "runs_per_30_days": 30.0,
+      "schedule_id": ".github/workflows/sync.yml:7:2"
+    },
+    {
+      "estimated_runner_minutes_per_30_days": 300.81,
+      "minimum_interval_minutes": 60,
+      "next_runs": [
+        {
+          "actual_utc": "2026-01-01T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-01T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-02T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-02T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-03T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-03T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-04T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-04T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-05T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-05T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-06T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-06T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-07T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-07T01:30:00-05:00"
+        },
+        {
+          "actual_utc": "2026-01-08T06:30:00Z",
+          "adjusted_for_dst_gap": false,
+          "fold": 0,
+          "intended_local": null,
+          "local_time": "2026-01-08T01:30:00-05:00"
+        }
+      ],
+      "runs_in_horizon": 371,
+      "runs_per_30_days": 30.08,
+      "schedule_id": ".github/workflows/sync.yml:9:3"
+    }
+  ],
+  "root": "D:\\我的\\GitHub\\clockwork-canary\\examples\\risky-repo",
+  "schedules": [
+    {
+      "expression": "0 2 * * *",
+      "has_matrix": false,
+      "id": ".github/workflows/nightly.yml:5:1",
+      "job_count": 1,
+      "line": 5,
+      "path": ".github/workflows/nightly.yml",
+      "runners": [
+        "ubuntu-latest"
+      ],
+      "timezone": "America/New_York",
+      "timezone_explicit": true,
+      "workflow": "Nightly maintenance"
+    },
+    {
+      "expression": "*/2 * * * *",
+      "has_matrix": false,
+      "id": ".github/workflows/sync.yml:11:4",
+      "job_count": 1,
+      "line": 11,
+      "path": ".github/workflows/sync.yml",
+      "runners": [
+        "ubuntu-latest"
+      ],
+      "timezone": "UTC",
+      "timezone_explicit": false,
+      "workflow": "Vendor sync"
+    },
+    {
+      "expression": "0 2 * * *",
+      "has_matrix": false,
+      "id": ".github/workflows/sync.yml:5:1",
+      "job_count": 1,
+      "line": 5,
+      "path": ".github/workflows/sync.yml",
+      "runners": [
+        "ubuntu-latest"
+      ],
+      "timezone": "America/New_York",
+      "timezone_explicit": true,
+      "workflow": "Vendor sync"
+    },
+    {
+      "expression": "2 2 * * *",
+      "has_matrix": false,
+      "id": ".github/workflows/sync.yml:7:2",
+      "job_count": 1,
+      "line": 7,
+      "path": ".github/workflows/sync.yml",
+      "runners": [
+        "ubuntu-latest"
+      ],
+      "timezone": "America/New_York",
+      "timezone_explicit": true,
+      "workflow": "Vendor sync"
+    },
+    {
+      "expression": "30 1 * * *",
+      "has_matrix": false,
+      "id": ".github/workflows/sync.yml:9:3",
+      "job_count": 1,
+      "line": 9,
+      "path": ".github/workflows/sync.yml",
+      "runners": [
+        "ubuntu-latest"
+      ],
+      "timezone": "America/New_York",
+      "timezone_explicit": true,
+      "workflow": "Vendor sync"
+    }
+  ],
+  "schema_version": "1.0",
+  "simulation_start": "2026-01-01T00:00:00Z",
+  "summary": {
+    "error": 1,
+    "findings": 17,
+    "notice": 3,
+    "schedules": 5,
+    "suppressed": 0,
+    "warning": 13
+  },
+  "suppressed_findings": [],
+  "tool": {
+    "name": "clockwork-canary",
+    "version": "0.1.0"
+  }
+}

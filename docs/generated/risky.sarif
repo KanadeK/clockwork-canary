@@ -1,0 +1,787 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule is more frequent than GitHub allows: The shortest simulated interval is 2 minute(s); GitHub Actions requires at least 5 minutes."
+          },
+          "properties": {
+            "evidence": {
+              "minimum_interval_minutes": 2
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4"
+            ]
+          },
+          "ruleId": "CC002"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/nightly.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule hits the start of an hour: GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary."
+          },
+          "properties": {
+            "evidence": {
+              "selected_minutes": [
+                0
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/nightly.yml:5:1"
+            ]
+          },
+          "ruleId": "CC003"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/nightly.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule crosses a daylight-saving gap: At least one intended wall-clock run does not exist and advances to the next valid local time."
+          },
+          "properties": {
+            "evidence": {
+              "examples": [
+                {
+                  "actual_utc": "2026-03-08T07:00:00Z",
+                  "adjusted_for_dst_gap": true,
+                  "fold": 0,
+                  "intended_local": "2026-03-08T02:00:00",
+                  "local_time": "2026-03-08T03:00:00-04:00"
+                }
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/nightly.yml:5:1"
+            ]
+          },
+          "ruleId": "CC004"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/nightly.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows collide: The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 21,
+              "exact_count": 7,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T06:58:00Z",
+                  "second_utc": "2026-01-01T07:00:00Z"
+                },
+                {
+                  "delta_minutes": 0,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:00:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/nightly.yml:5:1",
+                ".github/workflows/sync.yml:11:4"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/nightly.yml:5:1",
+              ".github/workflows/sync.yml:11:4"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/nightly.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Duplicate schedules trigger together: 2 entries use '0 2 * * *' in America/New_York; consolidate them or document why simultaneous runs are required."
+          },
+          "properties": {
+            "evidence": {
+              "schedule_ids": [
+                ".github/workflows/nightly.yml:5:1",
+                ".github/workflows/sync.yml:5:1"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/nightly.yml:5:1",
+              ".github/workflows/sync.yml:5:1"
+            ]
+          },
+          "ruleId": "CC007"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule hits the start of an hour: GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary."
+          },
+          "properties": {
+            "evidence": {
+              "selected_minutes": [
+                0
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:5:1"
+            ]
+          },
+          "ruleId": "CC003"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule crosses a daylight-saving gap: At least one intended wall-clock run does not exist and advances to the next valid local time."
+          },
+          "properties": {
+            "evidence": {
+              "examples": [
+                {
+                  "actual_utc": "2026-03-08T07:00:00Z",
+                  "adjusted_for_dst_gap": true,
+                  "fold": 0,
+                  "intended_local": "2026-03-08T02:00:00",
+                  "local_time": "2026-03-08T03:00:00-04:00"
+                }
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:5:1"
+            ]
+          },
+          "ruleId": "CC004"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule crosses a daylight-saving gap: At least one intended wall-clock run does not exist and advances to the next valid local time."
+          },
+          "properties": {
+            "evidence": {
+              "examples": [
+                {
+                  "actual_utc": "2026-03-08T07:00:00Z",
+                  "adjusted_for_dst_gap": true,
+                  "fold": 0,
+                  "intended_local": "2026-03-08T02:02:00",
+                  "local_time": "2026-03-08T03:00:00-04:00"
+                }
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:7:2"
+            ]
+          },
+          "ruleId": "CC004"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule enters a repeated daylight-saving hour: The selected local time occurs twice during fall-back. GitHub does not document a portable once-versus-twice guarantee; keep the job idempotent or move it outside the repeated hour."
+          },
+          "properties": {
+            "evidence": {
+              "examples": [
+                {
+                  "actual_utc": "2026-11-01T06:30:00Z",
+                  "adjusted_for_dst_gap": false,
+                  "fold": 1,
+                  "intended_local": null,
+                  "local_time": "2026-11-01T01:30:00-05:00"
+                }
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:9:3"
+            ]
+          },
+          "ruleId": "CC005"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule hits the start of an hour: GitHub documents higher scheduled-workflow load at the start of an hour. Choose a non-zero minute when exact alignment is unnecessary."
+          },
+          "properties": {
+            "evidence": {
+              "selected_minutes": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                22,
+                24,
+                26,
+                28,
+                30,
+                32,
+                34,
+                36,
+                38,
+                40,
+                42,
+                44,
+                46,
+                48,
+                50,
+                52,
+                54,
+                56,
+                58
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4"
+            ]
+          },
+          "ruleId": "CC003"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows collide: The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 21,
+              "exact_count": 7,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T06:58:00Z",
+                  "second_utc": "2026-01-01T07:00:00Z"
+                },
+                {
+                  "delta_minutes": 0,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:00:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/sync.yml:11:4",
+                ".github/workflows/sync.yml:5:1"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4",
+              ".github/workflows/sync.yml:5:1"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows collide: The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 21,
+              "exact_count": 7,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 0,
+                  "first_utc": "2026-01-01T07:02:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:02:00Z",
+                  "second_utc": "2026-01-01T07:04:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/sync.yml:11:4",
+                ".github/workflows/sync.yml:7:2"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4",
+              ".github/workflows/sync.yml:7:2"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows collide: The pair lands within 3 minute(s) 21 time(s) in the collision horizon; 7 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 21,
+              "exact_count": 7,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T06:28:00Z",
+                  "second_utc": "2026-01-01T06:30:00Z"
+                },
+                {
+                  "delta_minutes": 0,
+                  "first_utc": "2026-01-01T06:30:00Z",
+                  "second_utc": "2026-01-01T06:30:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T06:30:00Z",
+                  "second_utc": "2026-01-01T06:32:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/sync.yml:11:4",
+                ".github/workflows/sync.yml:9:3"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4",
+              ".github/workflows/sync.yml:9:3"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Estimated monthly runner-minute budget is high: Approximately 216000 raw runner-minutes per 30 days, above the configured 2000 threshold."
+          },
+          "properties": {
+            "evidence": {
+              "estimated_runner_minutes": 216000.0,
+              "job_count": 1,
+              "minutes_per_job": 10.0,
+              "runs_per_30_days": 21600.0
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4"
+            ]
+          },
+          "ruleId": "CC008"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/nightly.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows nearly collide: The pair lands within 3 minute(s) 7 time(s) in the collision horizon; 0 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 7,
+              "exact_count": 0,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-02T07:00:00Z",
+                  "second_utc": "2026-01-02T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-03T07:00:00Z",
+                  "second_utc": "2026-01-03T07:02:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/nightly.yml:5:1",
+                ".github/workflows/sync.yml:7:2"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/nightly.yml:5:1",
+              ".github/workflows/sync.yml:7:2"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Scheduled workflows nearly collide: The pair lands within 3 minute(s) 7 time(s) in the collision horizon; 0 are exact."
+          },
+          "properties": {
+            "evidence": {
+              "collision_count": 7,
+              "exact_count": 0,
+              "examples": [
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-01T07:00:00Z",
+                  "second_utc": "2026-01-01T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-02T07:00:00Z",
+                  "second_utc": "2026-01-02T07:02:00Z"
+                },
+                {
+                  "delta_minutes": 2,
+                  "first_utc": "2026-01-03T07:00:00Z",
+                  "second_utc": "2026-01-03T07:02:00Z"
+                }
+              ],
+              "schedule_ids": [
+                ".github/workflows/sync.yml:5:1",
+                ".github/workflows/sync.yml:7:2"
+              ]
+            },
+            "scheduleIds": [
+              ".github/workflows/sync.yml:5:1",
+              ".github/workflows/sync.yml:7:2"
+            ]
+          },
+          "ruleId": "CC006"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sync.yml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Schedule relies on implicit UTC: Add timezone: UTC to make intent explicit, or use an IANA local timezone."
+          },
+          "properties": {
+            "evidence": {},
+            "scheduleIds": [
+              ".github/workflows/sync.yml:11:4"
+            ]
+          },
+          "ruleId": "CC009"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "informationUri": "https://github.com/KanadeK/clockwork-canary",
+          "name": "Clockwork Canary",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "A workflow or schedule cannot be parsed or simulated."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc001",
+              "id": "CC001",
+              "name": "Invalidschedule",
+              "shortDescription": {
+                "text": "Invalid schedule"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The interval is shorter than five minutes."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc002",
+              "id": "CC002",
+              "name": "Unsupportedfrequency",
+              "shortDescription": {
+                "text": "Unsupported frequency"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The schedule uses minute zero."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc003",
+              "id": "CC003",
+              "name": "Start-of-hourload",
+              "shortDescription": {
+                "text": "Start-of-hour load"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A wall-clock run falls in a skipped spring-forward hour."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc004",
+              "id": "CC004",
+              "name": "DSTgap",
+              "shortDescription": {
+                "text": "DST gap"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A wall-clock run falls in a repeated fall-back hour."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc005",
+              "id": "CC005",
+              "name": "DSTfold",
+              "shortDescription": {
+                "text": "DST fold"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Two schedules run within the configured window."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc006",
+              "id": "CC006",
+              "name": "Schedulecollision",
+              "shortDescription": {
+                "text": "Schedule collision"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Two or more entries have the same cron and timezone."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc007",
+              "id": "CC007",
+              "name": "Duplicateschedule",
+              "shortDescription": {
+                "text": "Duplicate schedule"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Estimated monthly runner-minutes exceed policy."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc008",
+              "id": "CC008",
+              "name": "Runner-minutebudget",
+              "shortDescription": {
+                "text": "Runner-minute budget"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The schedule relies on GitHub's default timezone."
+              },
+              "helpUri": "https://github.com/KanadeK/clockwork-canary/blob/main/docs/RULES.md#cc009",
+              "id": "CC009",
+              "name": "ImplicitUTC",
+              "shortDescription": {
+                "text": "Implicit UTC"
+              }
+            }
+          ],
+          "version": "0.1.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

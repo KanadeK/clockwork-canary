@@ -1,0 +1,8 @@
+{
+  "collision_horizon_days": 7,
+  "collision_window_minutes": 3,
+  "default_job_minutes": 10,
+  "fail_on": "warning",
+  "horizon_days": 370,
+  "monthly_minutes_warning": 2000
+}

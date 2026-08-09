@@ -1,0 +1,17 @@
+name: Vendor sync
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+      timezone: America/New_York
+    - cron: "2 2 * * *"
+      timezone: America/New_York
+    - cron: "30 1 * * *"
+      timezone: America/New_York
+    - cron: "*/2 * * * *"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This fixture intentionally demonstrates multiple findings"

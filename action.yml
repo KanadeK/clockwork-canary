@@ -1,0 +1,63 @@
+name: Clockwork Canary
+description: Audit scheduled GitHub Actions for DST surprises, load spikes, collisions, and runner-minute risk.
+author: KanadeK
+
+branding:
+  icon: clock
+  color: yellow
+
+inputs:
+  path:
+    description: Repository path to scan.
+    default: .
+    required: false
+  config:
+    description: Optional policy JSON path.
+    default: ""
+    required: false
+  format:
+    description: text, markdown, json, or sarif.
+    default: markdown
+    required: false
+  output:
+    description: Optional report output path.
+    default: clockwork-canary-report.md
+    required: false
+  fail-on:
+    description: none, notice, warning, or error.
+    default: warning
+    required: false
+  horizon-days:
+    description: Optional simulation horizon override.
+    default: ""
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Install Clockwork Canary
+      shell: bash
+      run: python -m pip install --disable-pip-version-check "$CLOCKWORK_ACTION_PATH"
+      env:
+        CLOCKWORK_ACTION_PATH: ${{ github.action_path }}
+    - name: Audit scheduled workflows
+      shell: bash
+      run: |
+        args=(scan "$CLOCKWORK_SCAN_PATH" --format "$CLOCKWORK_FORMAT" --fail-on "$CLOCKWORK_FAIL_ON")
+        if [[ -n "$CLOCKWORK_CONFIG" ]]; then
+          args+=(--config "$CLOCKWORK_CONFIG")
+        fi
+        if [[ -n "$CLOCKWORK_OUTPUT" ]]; then
+          args+=(--output "$CLOCKWORK_OUTPUT")
+        fi
+        if [[ -n "$CLOCKWORK_HORIZON" ]]; then
+          args+=(--horizon-days "$CLOCKWORK_HORIZON")
+        fi
+        clockwork-canary "${args[@]}"
+      env:
+        CLOCKWORK_CONFIG: ${{ inputs.config }}
+        CLOCKWORK_FAIL_ON: ${{ inputs.fail-on }}
+        CLOCKWORK_FORMAT: ${{ inputs.format }}
+        CLOCKWORK_HORIZON: ${{ inputs.horizon-days }}
+        CLOCKWORK_OUTPUT: ${{ inputs.output }}
+        CLOCKWORK_SCAN_PATH: ${{ inputs.path }}

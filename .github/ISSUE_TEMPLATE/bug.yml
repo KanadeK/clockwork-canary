@@ -1,0 +1,41 @@
+name: Bug report
+description: Report incorrect parsing, simulation, findings, or output.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please use synthetic workflow data and remove every secret.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: clockwork-canary 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Workflow discovery
+        - Cron parsing
+        - Timezone or DST simulation
+        - Collision analysis
+        - Reports or SARIF
+        - Packaging or Action
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

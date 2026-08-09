@@ -1,0 +1,12 @@
+name: Nightly maintenance
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+      timezone: America/New_York
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This crosses the spring DST gap and starts on minute zero"

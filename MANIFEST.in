@@ -1,0 +1,14 @@
+include CHANGELOG.md
+include CODE_OF_CONDUCT.md
+include CONTRIBUTING.md
+include LICENSE
+include README.md
+include README.zh-CN.md
+include SECURITY.md
+include action.yml
+include .clockwork-canary.json
+recursive-include .github *.md *.yml
+recursive-include docs *.json *.md *.sarif *.svg *.txt
+recursive-include examples *.json *.yml
+recursive-include scripts *.py
+recursive-include tests *.py

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">Clockwork Canary</title>
+  <desc id="desc">A canary perched on a clockwork timeline with warning markers for schedule risks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101923"/>
+      <stop offset="1" stop-color="#203848"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe17a"/>
+      <stop offset="1" stop-color="#f0a51a"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#05090d" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="430" rx="28" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#b8d9e8" stroke-width="1">
+    <path d="M0 80h1200M0 160h1200M0 240h1200M0 320h1200"/>
+    <path d="M140 0v430M280 0v430M420 0v430M560 0v430M700 0v430M840 0v430M980 0v430M1120 0v430"/>
+  </g>
+  <g transform="translate(92 65)" filter="url(#shadow)">
+    <circle cx="150" cy="150" r="132" fill="#172632" stroke="#5b7889" stroke-width="8"/>
+    <circle cx="150" cy="150" r="104" fill="#0e171f" stroke="#314b5a" stroke-width="3"/>
+    <g stroke="#8fb0c0" stroke-width="5" stroke-linecap="round">
+      <path d="M150 58v16M150 226v16M58 150h16M226 150h16"/>
+      <path d="M85 85l11 11M204 204l11 11M215 85l-11 11M96 204l-11 11"/>
+    </g>
+    <path d="M150 150V90M150 150l54 28" stroke="#ffe17a" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="150" cy="150" r="11" fill="#ffe17a"/>
+  </g>
+  <g transform="translate(250 58)" filter="url(#shadow)">
+    <path d="M65 94c22-52 82-67 128-31 31 24 39 71 20 104-20 35-70 54-110 35-38-18-57-66-38-108z" fill="url(#gold)"/>
+    <path d="M72 141c-46 13-63 55-46 90 24-23 55-31 86-22" fill="#d87b13"/>
+    <path d="M181 76l63 17-55 28z" fill="#f6b91f"/>
+    <circle cx="166" cy="88" r="7" fill="#101923"/>
+    <path d="M102 194c34 30 91 24 117-8-9 46-54 73-100 59-30-9-50-33-55-58 11 1 24 3 38 7z" fill="#e6a01a"/>
+    <path d="M118 240l-9 29M155 240l5 29" stroke="#f5c34e" stroke-width="7" stroke-linecap="round"/>
+    <path d="M95 269h29M149 269h26" stroke="#f5c34e" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(470 78)">
+    <text x="0" y="76" font-family="Segoe UI, Inter, sans-serif" font-size="68" font-weight="750" fill="#f7fbfd">Clockwork Canary</text>
+    <text x="3" y="126" font-family="Segoe UI, Inter, sans-serif" font-size="24" fill="#a8c4d2">AUDIT THE CLOCK BEFORE YOUR WORKFLOWS FLY</text>
+    <path d="M4 170H640" stroke="#4e6978" stroke-width="2"/>
+    <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="19">
+      <rect x="3" y="198" width="170" height="46" rx="23" fill="#293f4d"/>
+      <text x="24" y="228" fill="#ffe17a">DST gaps + folds</text>
+      <rect x="188" y="198" width="150" height="46" rx="23" fill="#293f4d"/>
+      <text x="211" y="228" fill="#bfe1ee">collisions</text>
+      <rect x="353" y="198" width="178" height="46" rx="23" fill="#293f4d"/>
+      <text x="375" y="228" fill="#bfe1ee">runner minutes</text>
+      <rect x="546" y="198" width="104" height="46" rx="23" fill="#293f4d"/>
+      <text x="569" y="228" fill="#bfe1ee">SARIF</text>
+    </g>
+  </g>
+</svg>

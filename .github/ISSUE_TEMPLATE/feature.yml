@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a focused rule, report, or workflow improvement.
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Operational problem
+      description: What review decision is currently difficult or unsafe?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Platform evidence
+      description: Link official behavior or provide a synthetic example.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Proposed scope and non-goals
+    validations:
+      required: true
