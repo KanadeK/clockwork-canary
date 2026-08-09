@@ -7,7 +7,7 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 ### Fixed
 
 - Remove machine-specific checkout paths from portable JSON evidence.
-- Pin the complete packaging toolchain and normalize archive metadata for byte-identical Windows/Linux release assets.
+- Pin the complete packaging toolchain, canonicalize generated metadata newlines, and use host-independent archive streams for byte-identical Windows/Linux assets.
 - Upgrade official checkout, setup-python, and upload-artifact workflow dependencies to v7.
 
 ## [0.1.0] - 2026-08-08

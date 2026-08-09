@@ -6,8 +6,8 @@ Changes:
 
 - JSON reports now use the stable repository-root label `.` instead of exposing a checkout-specific absolute path;
 - setuptools, wheel, and the build frontend are pinned so package metadata is identical on Windows and Linux;
-- sdist and wheel ownership, permissions, timestamps, ordering, and ZIP metadata remain normalized;
+- sdist and wheel ownership, permissions, timestamps, ordering, generated-metadata newlines, and archive streams are normalized without host zlib output;
 - official GitHub workflow dependencies are current at v7;
-- the full 62-test suite, branch coverage gate, clean install, Action smoke, and CodeQL remain required.
+- the full 62-test suite, branch coverage gate, normalized-sdist rebuild, clean wheel install, Action smoke, and CodeQL remain required.
 
 Verify both artifacts against `SHA256SUMS` or `release-manifest.json` before installation.

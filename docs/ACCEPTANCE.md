@@ -70,7 +70,7 @@ Expected stages:
 5. README local-link validation;
 6. secret scan;
 7. wheel and sdist build;
-8. wheel install in a clean virtual environment;
+8. normalized sdist rebuild and wheel install in a clean virtual environment;
 9. release manifest and checksum verification.
 
 The final line must say `release gate: PASS`. A partial run is not a release pass.

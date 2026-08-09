@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import copy
-import gzip
+import csv
 import hashlib
 import io
 import json
 import os
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tarfile
@@ -210,7 +213,7 @@ def _normalize_sdist(path: Path) -> None:
         tarfile.open(path, mode="r:gz") as source,
         tarfile.open(fileobj=tar_buffer, mode="w", format=tarfile.PAX_FORMAT) as target,
     ):
-        for original in source.getmembers():
+        for original in sorted(source.getmembers(), key=lambda item: item.name):
             member = copy.copy(original)
             member.mtime = epoch
             member.uid = 0
@@ -224,22 +227,19 @@ def _normalize_sdist(path: Path) -> None:
                 member.mode = 0o777
             else:
                 member.mode = 0o644
-            payload = source.extractfile(original) if original.isfile() else None
+            payload = None
+            if original.isfile():
+                extracted = source.extractfile(original)
+                if extracted is None:
+                    raise RuntimeError(f"cannot read sdist member: {original.name}")
+                payload_bytes = extracted.read()
+                if original.name.endswith("PKG-INFO") or original.name.endswith("/setup.cfg"):
+                    payload_bytes = _canonical_newlines(payload_bytes)
+                member.size = len(payload_bytes)
+                payload = io.BytesIO(payload_bytes)
             target.addfile(member, payload)
 
-    temporary = path.with_name(path.name + ".tmp")
-    with (
-        temporary.open("wb") as raw,
-        gzip.GzipFile(
-            filename="",
-            mode="wb",
-            fileobj=raw,
-            compresslevel=9,
-            mtime=epoch,
-        ) as compressed,
-    ):
-        compressed.write(tar_buffer.getvalue())
-    temporary.replace(path)
+    _write_deterministic_gzip(path, tar_buffer.getvalue(), epoch)
 
 
 def _normalize_wheel(path: Path) -> None:
@@ -247,24 +247,72 @@ def _normalize_wheel(path: Path) -> None:
 
     timestamp = time.gmtime(int(SOURCE_DATE_EPOCH))[:6]
     with zipfile.ZipFile(path, mode="r") as source:
-        entries = [(info.filename, info.is_dir(), source.read(info)) for info in source.infolist()]
+        entries = {info.filename: (info.is_dir(), source.read(info)) for info in source.infolist()}
+
+    for name, (is_directory, payload) in list(entries.items()):
+        if not is_directory and (
+            name.endswith(".dist-info/METADATA")
+            or name.endswith(".dist-info/WHEEL")
+            or name.endswith(".dist-info/entry_points.txt")
+            or name.endswith(".dist-info/top_level.txt")
+        ):
+            entries[name] = (False, _canonical_newlines(payload))
+
+    record_names = [name for name in entries if name.endswith(".dist-info/RECORD")]
+    if len(record_names) != 1:
+        raise RuntimeError(f"expected one wheel RECORD, found {len(record_names)}")
+    record_name = record_names[0]
+    record_buffer = io.StringIO(newline="")
+    writer = csv.writer(record_buffer, lineterminator="\n")
+    for name, (is_directory, payload) in sorted(entries.items()):
+        if is_directory or name == record_name:
+            continue
+        encoded_hash = base64.urlsafe_b64encode(hashlib.sha256(payload).digest()).rstrip(b"=")
+        writer.writerow([name, f"sha256={encoded_hash.decode('ascii')}", str(len(payload))])
+    writer.writerow([record_name, "", ""])
+    entries[record_name] = (False, record_buffer.getvalue().encode("utf-8"))
 
     temporary = path.with_name(path.name + ".tmp")
     with zipfile.ZipFile(
         temporary,
         mode="w",
-        compression=zipfile.ZIP_DEFLATED,
-        compresslevel=9,
+        compression=zipfile.ZIP_STORED,
         strict_timestamps=True,
     ) as target:
-        for name, is_directory, payload in sorted(entries):
+        for name, (is_directory, payload) in sorted(entries.items()):
             info = zipfile.ZipInfo(filename=name, date_time=timestamp)
             info.create_system = 3
-            info.compress_type = zipfile.ZIP_STORED if is_directory else zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.external_attr = ((0o40755 if is_directory else 0o100644) << 16) | (
                 0x10 if is_directory else 0
             )
-            target.writestr(info, payload, compress_type=info.compress_type, compresslevel=9)
+            target.writestr(info, payload, compress_type=zipfile.ZIP_STORED)
+    temporary.replace(path)
+
+
+def _canonical_newlines(payload: bytes) -> bytes:
+    return payload.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def _write_deterministic_gzip(path: Path, payload: bytes, epoch: int) -> None:
+    """Write gzip with uncompressed DEFLATE blocks, independent of zlib versions."""
+
+    output = bytearray(b"\x1f\x8b\x08\x00")
+    output.extend(struct.pack("<I", epoch))
+    output.extend(b"\x00\xff")
+    if payload:
+        for offset in range(0, len(payload), 65535):
+            block = payload[offset : offset + 65535]
+            output.append(1 if offset + len(block) == len(payload) else 0)
+            output.extend(struct.pack("<HH", len(block), len(block) ^ 0xFFFF))
+            output.extend(block)
+    else:
+        output.extend(b"\x01\x00\x00\xff\xff")
+    output.extend(
+        struct.pack("<II", binascii.crc32(payload) & 0xFFFFFFFF, len(payload) & 0xFFFFFFFF)
+    )
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_bytes(output)
     temporary.replace(path)
 
 

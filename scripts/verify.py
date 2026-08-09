@@ -168,6 +168,32 @@ def clean_wheel_smoke() -> None:
     )
 
 
+def sdist_rebuild_smoke() -> None:
+    sdists = sorted((ROOT / "release").glob("*.tar.gz"))
+    if len(sdists) != 1:
+        raise RuntimeError(f"expected one sdist, found {len(sdists)}")
+    output = VERIFY_ROOT / "sdist-wheel"
+    output.mkdir()
+    run(
+        "sdist rebuild",
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "wheel",
+            "--disable-pip-version-check",
+            "--no-deps",
+            "--no-build-isolation",
+            "--wheel-dir",
+            str(output),
+            str(sdists[0]),
+        ],
+    )
+    rebuilt = list(output.glob("*.whl"))
+    if len(rebuilt) != 1:
+        raise RuntimeError(f"sdist rebuild produced {len(rebuilt)} wheels")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-package", action="store_true")
@@ -199,6 +225,7 @@ def main(argv: list[str] | None = None) -> int:
         run("secret scan", [sys.executable, "scripts/secret_scan.py"])
         if not args.skip_package:
             run("package", [sys.executable, "scripts/package_release.py", "--clean"])
+            sdist_rebuild_smoke()
             clean_wheel_smoke()
             run("manifest", [sys.executable, "scripts/package_release.py", "--verify"])
     finally:
