@@ -17,6 +17,7 @@ import tarfile
 import time
 import tomllib
 import zipfile
+from importlib import metadata as importlib_metadata
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +59,7 @@ def version() -> str:
 
 
 def build(clean: bool) -> None:
+    _verify_build_toolchain()
     if clean:
         for path in (DIST, RELEASE, STAGE_A, STAGE_B, BUILD, EGG_INFO):
             _remove_tree(path)
@@ -171,6 +173,32 @@ def _remove_tree(path: Path) -> None:
         raise RuntimeError(f"refusing to remove path outside repository: {resolved}")
     if resolved.exists():
         shutil.rmtree(resolved)
+
+
+def _verify_build_toolchain() -> None:
+    """Require exact build backend versions before claiming reproducibility."""
+
+    with (ROOT / "pyproject.toml").open("rb") as handle:
+        project = tomllib.load(handle)
+    requirements = project.get("build-system", {}).get("requires", [])
+    if not isinstance(requirements, list) or not requirements:
+        raise RuntimeError("build-system.requires must contain exact package pins")
+    for requirement in requirements:
+        match = re.fullmatch(r"([A-Za-z0-9_.-]+)==([A-Za-z0-9_.+-]+)", str(requirement))
+        if not match:
+            raise RuntimeError(f"build-system requirement is not exactly pinned: {requirement}")
+        package, expected = match.groups()
+        try:
+            actual = importlib_metadata.version(package)
+        except importlib_metadata.PackageNotFoundError as exc:
+            raise RuntimeError(
+                f"required build tool is not installed: {package}=={expected}"
+            ) from exc
+        if actual != expected:
+            raise RuntimeError(
+                f"build tool mismatch: {package}=={actual}; expected {package}=={expected}. "
+                'Run: python -m pip install -e ".[dev]"'
+            )
 
 
 def _normalize_sdist(path: Path) -> None:

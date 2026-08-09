@@ -9,7 +9,7 @@ python -m pip install -e ".[dev]"
 clockwork-canary --version
 ```
 
-Expected: version `0.1.0` and exit code `0`.
+Expected: version `0.1.1` and exit code `0`.
 
 ## 2. Healthy fixture
 

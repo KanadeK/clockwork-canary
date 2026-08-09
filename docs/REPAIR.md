@@ -5,12 +5,12 @@ Do not bypass a failing gate with `--no-deps`, disabled tests, reduced coverage,
 ## Editable install or build fails
 
 ```bash
-python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e ".[dev]"
 python -m build
 ```
 
 - If setuptools reports a license metadata conflict, keep the SPDX `license = "MIT"` expression and do not add the superseded `License ::` classifier.
+- Release builds require the exact `build-system.requires` versions. Reinstall `.[dev]` if the packaging script reports a toolchain mismatch; do not weaken the pins.
 - If README or license files are missing, restore them before rebuilding; do not remove package metadata to silence the error.
 - On Windows timezone lookup failures, confirm the conditional `tzdata` dependency installed.
 
@@ -87,7 +87,7 @@ If two builds differ, inspect wheel and sdist archive timestamps/content before 
 gh auth status
 git remote -v
 gh run list --limit 10
-gh release view v0.1.0
+gh release view v0.1.1
 ```
 
 Authentication, a green local build, a pushed commit, a green CI run, a tag, and a GitHub Release are separate facts. Do not send a completion notification until all required remote facts are verified.

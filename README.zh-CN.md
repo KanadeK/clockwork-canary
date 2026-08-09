@@ -28,7 +28,7 @@ clockwork-canary scan . --start 2026-01-01T00:00:00Z
 从 GitHub Release 对应标签安装：
 
 ```bash
-pipx install "git+https://github.com/KanadeK/clockwork-canary.git@v0.1.0"
+pipx install "git+https://github.com/KanadeK/clockwork-canary.git@v0.1.1"
 clockwork-canary scan /path/to/repository
 ```
 

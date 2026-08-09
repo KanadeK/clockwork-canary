@@ -48,7 +48,7 @@ def test_text_and_markdown_reports_are_readable() -> None:
 def test_json_report_has_stable_schema() -> None:
     payload = json.loads(render(_report(), "json"))
     assert payload["schema_version"] == "1.0"
-    assert payload["tool"]["version"] == "0.1.0"
+    assert payload["tool"]["version"] == "0.1.1"
     assert payload["summary"]["schedules"] == 1
     assert payload["metrics"][0]["next_runs"]
 

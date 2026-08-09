@@ -200,7 +200,8 @@ def analyze(
         ),
     ]
     return AuditReport(
-        root=root.resolve(),
+        # Reports are portable evidence. Never leak a machine-specific checkout path.
+        root=Path("."),
         generated_at=generated,
         simulation_start=start,
         horizon_days=policy.horizon_days,

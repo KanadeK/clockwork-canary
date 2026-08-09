@@ -48,7 +48,9 @@ def test_scan_healthy_repo_and_write_json(
         ]
     )
     assert result == 0
-    assert json.loads(output.read_text(encoding="utf-8"))["summary"]["findings"] == 0
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert payload["summary"]["findings"] == 0
+    assert payload["root"] == "."
     assert "Wrote json report" in capsys.readouterr().out
 
 

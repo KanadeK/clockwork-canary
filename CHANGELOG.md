@@ -2,6 +2,14 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-08-09
+
+### Fixed
+
+- Remove machine-specific checkout paths from portable JSON evidence.
+- Pin the complete packaging toolchain and normalize archive metadata for byte-identical Windows/Linux release assets.
+- Upgrade official checkout, setup-python, and upload-artifact workflow dependencies to v7.
+
 ## [0.1.0] - 2026-08-08
 
 ### Added
@@ -15,4 +23,5 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - Standalone `explain`, repository `scan`, and policy `init` commands.
 - Composite GitHub Action, healthy/risky fixtures, full local release gate, CI, CodeQL, and deterministic release packaging.
 
+[0.1.1]: https://github.com/KanadeK/clockwork-canary/releases/tag/v0.1.1
 [0.1.0]: https://github.com/KanadeK/clockwork-canary/releases/tag/v0.1.0

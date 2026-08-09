@@ -78,7 +78,7 @@ def load_policy(root: Path, config_path: Path | None = None) -> Policy:
     for key in ("default_job_minutes", "monthly_minutes_warning"):
         if key in raw:
             value = raw[key]
-            if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0:
+            if not isinstance(value, int | float) or isinstance(value, bool) or value <= 0:
                 raise ConfigError(f"{key} must be a positive number")
             setattr(policy, key, float(value))
 
@@ -91,7 +91,7 @@ def load_policy(root: Path, config_path: Path | None = None) -> Policy:
         if not isinstance(raw["durations"], dict):
             raise ConfigError("durations must be an object mapping paths to minutes")
         for path_glob, minutes in raw["durations"].items():
-            if not isinstance(path_glob, str) or not isinstance(minutes, (int, float)):
+            if not isinstance(path_glob, str) or not isinstance(minutes, int | float):
                 raise ConfigError("duration entries must map string paths to numeric minutes")
             if isinstance(minutes, bool) or minutes <= 0:
                 raise ConfigError("duration minutes must be positive")

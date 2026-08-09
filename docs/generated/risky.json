@@ -783,7 +783,7 @@
       "schedule_id": ".github/workflows/sync.yml:9:3"
     }
   ],
-  "root": "D:\\我的\\GitHub\\clockwork-canary\\examples\\risky-repo",
+  "root": ".",
   "schedules": [
     {
       "expression": "0 2 * * *",
@@ -869,6 +869,6 @@
   "suppressed_findings": [],
   "tool": {
     "name": "clockwork-canary",
-    "version": "0.1.0"
+    "version": "0.1.1"
   }
 }
