@@ -41,7 +41,9 @@ dev = [
   "pytest>=8.4",
   "pytest-cov>=6.2",
   "ruff>=0.12",
+  "setuptools>=77",
   "types-PyYAML>=6.0.12",
+  "wheel",
 ]
 
 [project.scripts]
