@@ -100,7 +100,7 @@ jobs:
   clockwork-canary:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: KanadeK/clockwork-canary@v0.1.0
         with:
           path: .
